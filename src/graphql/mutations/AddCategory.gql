@@ -2,7 +2,7 @@ mutation(
   $name: String!
  
 ) {
-  addCategory(
+  createCategory(
     name: $name
 
   ) {

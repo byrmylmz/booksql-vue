@@ -45,28 +45,37 @@ methods: {
       // Update the cache with the result
       // The query will be updated with the optimistic response
       // and then with the real result of the mutation
-      update: (store, { data: { addCategory } }) => {
+      update: (store, { data: { createCategory } }) => {
         // Read the data from our cache for this query.
-        const { names } = store.readQuery({ query: CATEGORY_ALL })
+        const { data } = store.readQuery({ query: CATEGORY_ALL })
         // Add our tag from the mutation to the end
         // We don't want to modify the object returned by readQuery directly:
         // https://www.apollographql.com/docs/react/caching/cache-interaction/
-        const namesCopy = names.slice()
-        namesCopy.push(addCategory)
+        // const namesCopy = names.slice()
+        // namesCopy.push(createCategory)
+        data.categories.push(createCategory)
         // Write our data back to the cache.
-        store.writeQuery({ query: CATEGORY_ALL, names})
+        
+        store.writeQuery({ query: CATEGORY_ALL, data})
+        /**
+         * SECOND PART
+         */
+        // const categories  = {query:CATEGORY_ALL}
+        // const categoriesData=store.readQuery(categories)
+        // categoriesData.categories.push(createCategory)
+        // store.writeQuery({...categories,data: categoriesData})
       },
       // Optimistic UI
       // Will be treated as a 'fake' result as soon as the request is made
       // so that the UI can react quickly and the user be happy
-      //   optimisticResponse: {
-      //   __typename: 'Mutation',
-      //   createCategory: {
-      //     __typename: 'Category',
-      //     id: -1,
-      //     name: newTag,
-      //   },
-      // },
+        optimisticResponse: {
+        __typename: 'Mutation',
+        createCategory: {
+          __typename: 'Category',
+          id: null,
+          name: name,
+        },
+      },
     }).then((data) => {
       // Result
       console.log(data)
