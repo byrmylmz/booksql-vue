@@ -1,0 +1,14 @@
+mutation(
+  $id:ID!
+  $name: String!
+
+) {
+  updateCategory(
+    id:$id
+    name: $name
+
+  ) {
+    id
+    name
+  }
+}

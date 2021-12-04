@@ -1,0 +1,12 @@
+mutation(
+  $name: String!
+ 
+) {
+  addCategory(
+    name: $name
+
+  ) {
+    
+    name
+  }
+}

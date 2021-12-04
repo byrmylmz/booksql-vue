@@ -1,5 +1,22 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <div id="example-3">
+  <button v-on:click="say('hi')">Say hi</button>
+  <button v-on:click="say('what')">Say what</button>
+</div>
 </template>
+
+<script>
+export default {
+  
+  methods: {
+    say: function (message) {
+      alert(message)
+    }
+  }
+
+}
+</script>
+
+<style>
+
+</style>
