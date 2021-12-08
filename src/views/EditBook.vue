@@ -1,5 +1,5 @@
 <template>
-  <div class="create container mt-12">
+  <div class="create container mt-12 mx-auto px-40">
     <h1 class="mb-4">Edit Book</h1>
     <form action="#" method="POST" @submit.prevent="editBook">
       <div class="form-group">

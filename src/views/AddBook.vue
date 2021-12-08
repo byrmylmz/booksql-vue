@@ -1,6 +1,6 @@
 <template>
-  <div class="create container mt-12">
-    <h1 class="mb-4">Create Book</h1>
+  <div class=" container mx-auto px-40 mt-10">
+    <h1 class="text-2xl font-semibold mb-5">Create Book</h1>
     <form action="#" method="POST" @submit.prevent="addBook">
       <div class="form-group">
         <label class="font-bold mb-2" for="title">Title</label>
@@ -27,7 +27,7 @@
       </div>
       <div class="form-group">
         <ApolloQuery :query="require('@/graphql/queries/Categories.gql')">
-          <template slot-scope="{ result: { data }, isLoading }">
+          <template slot-scope="{ result: { data, }, isLoading }">
             <div v-if="isLoading">Loading...</div>
             <select v-else v-model="category">
               <option v-for="category of data.categories" :key="category.id" :value="parseInt(category.id)">
