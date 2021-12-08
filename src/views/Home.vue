@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <div class="hero bg-gray-100 mb-24 ">
+    <!-- HERO SECTION STARTED -->
+    <div class="hero bg-gray-100 mb-16 ">
       <div class="container mx-auto flex flex-col lg:flex-row lg:justify-between py-10 px-40">
         <div class="mt-10">
-          
           <h1 class="w-full text-2xl font-semibold lg:w-3/4 mb-4">Book recommendation site built with GraphQL</h1>
           <p class="leading-normal w-full lg:w-3/4 mb-6">Built with Laravel (Lighthouse GraphQL), Vue.js (vue-apollo) and Tailwind CSS</p>
           <div class="flex items-center">
@@ -16,71 +16,93 @@
         </div>
       </div>
     </div> <!-- end hero -->
-
-    <div class="container mx-auto px-40">
-      <div class="flex flex-wrap -mx-4">
-        <div class="w-full lg:w-1/4 px-4 mb-12">
-          <ApolloQuery :query="categoriesQuery">
-            <template slot-scope="{ result: { data }, isLoading }">
-              <div v-if="isLoading">Loading...</div>
-              <ul v-else class="list-reset text-lg">
-                <li class="mb-6">
-                  <a href="#" class="text-black hover:text-grey-darkest" @click.prevent="selectCategory('all')">All</a>
-                </li>
-                <li class="mb-6">
-                  <a href="#" class="text-black hover:text-grey-darkest" @click.prevent="selectCategory('featured')">Featured</a>
-                </li>
-                <li v-for="category of data.categories" :key="category.id" class="mb-6">
-                  <a href="#" class="text-black hover:text-grey-darkest" @click.prevent="selectCategory(category.id)">{{ category.name }}</a>
-                </li>
-                <li class="mb-6">
-                  <router-link to="/books/add" class="text-black hover:text-grey-darkest">Add a book</router-link>
-                </li>
-              </ul>
-            </template>
-          </ApolloQuery>
-        </div>
-        <div class="w-full lg:w-3/4 px-4 mb-12">
+    <!-- CONTAINER FOR 2 COLUMN
+     -->
+    <div class="container bg-gray-100  mx-auto px-40">
+    <div class="flex flex-wrap -mx-4 bg-red-100">
+    <div class="w-full lg:w-1/4 px-4 mb-12 bg-blue-100">
+    <!-- CATEGORIES APOLLO COMPONENT LEFT SIDE -->
+        <ApolloQuery :query="categoriesQuery">
+      <template slot-scope="{ result: { data }, isLoading }">
+        <!-- Some content -->
+        <div v-if="isLoading">Loading...</div>
+        <ul v-else class="list-reset text-lg"> 
+          <!-- LIST FOR ALL BOOKS -->
+          <li class="mb-5">
+            <a href="#" class="link-margin" @click.prevent="selectCategory('all')" >All</a>
+          </li>
+          <!-- LIST FOR FEATURED BOOKS -->
+          <li class="mb-5">
+            <a href="#" class="link-margin" @click.prevent="selectCategory('featured')">Featured</a>
+          </li>
+          <!-- LINK FOR THE LIST -->
+            <a v-for="category of data.categories" :key="category.id" >
+          <li class="mb-5">
+                <a href="#" class="link-margin" @click.prevent="selectCategory(category.id)">{{ category.name }}</a>
+          </li>
+            </a>
+            <!-- ADD A BOOK -->
+          <li>
+             <router-link to="/books/add">Add a book</router-link>
+          </li>
+        </ul>
+      </template>
+    </ApolloQuery> 
+    <!-- END CATEGORY COMPONENT -->
+     </div>
+        <div class="w-full lg:w-3/4 px-4 mb-12 bg-indigo-400">
           <div>
-            <ApolloQuery :query="query" v-if="selectedCategory === 'all'">
-              <template slot-scope="{ result: { data }, isLoading }">
-                <div v-if="isLoading">Loading...</div>
-                <div v-else class="flex flex-wrap">
-                  <div v-for="book of data.books" :key="book.id" class="w-full lg:w-1/3 px-4 mb-12">
-                    <book-listing :book="book"></book-listing>
+            <!-- BOOKS LIST COMPONENT RIGHT SIDE -->
+                <!-- SECOND COMPONENT ALL BOOKS-->
+                  <div v-if="selectedCategory === 'all'">
+                    <ApolloQuery :query="query">
+                      <template slot-scope="{ result: { data }, isLoading }">
+                        <div v-if="isLoading">Loading...</div>
+                        <ul v-else class="flex flex-wrap">
+                          <div v-for="book of data.books" :key="book.id" class="w-full lg:w-1/3 px-4 mb-12">
+                          <book-listing :book="book"></book-listing>      
+                          </div>
+                        </ul>
+                      </template>
+                    </ApolloQuery>
                   </div>
-                </div>
-              </template>
-            </ApolloQuery>
 
-            <ApolloQuery :query="query" :variables="{ featured: true }" v-else-if="selectedCategory === 'featured'">
-              <template slot-scope="{ result: { data }, isLoading }">
-                <div v-if="isLoading">Loading...</div>
-                <div v-else class="flex flex-wrap">
-                  <div v-for="book of data.booksByFeatured" :key="book.id" class="w-full lg:w-1/3 px-4 mb-12">
-                    <book-listing :book="book"></book-listing>
+                  <!-- THIRD COMPONENT FEATURED BOOKS-->
+                  <ApolloQuery :query="query" :variables="{ featured: true}" v-else-if="selectedCategory === 'featured'" >
+                    <template slot-scope="{ result: { data }, isLoading }">
+                      <div v-if="isLoading">Loading...</div>
+                      <ul v-else class="flex flex-wrap">
+                        <div v-for="book of data.booksByFeatured" :key="book.id" class="w-full lg:w-1/3 px-4 mb-12" >
+                          <book-listing :book="book"></book-listing>               
+                        </div>
+                      </ul>
+                    </template>
+                  </ApolloQuery>
+
+                  <!-- FORTH COMPONENT  NORMAL BOOKS BY ID-->
+                  <div :query="query" :variables="{ id: selectedCategory }" v-else>
+                    <ApolloQuery :query="query" :variables="{ id: selectedCategory }">
+                      <template slot-scope="{ result: { data }, isLoading }">
+                        <div v-if="isLoading">Loading...</div>
+                        <ul v-else class="flex flex-wrap">
+                          <div v-for="book of data.category.books" :key="book.id" class="w-full lg:w-1/3 px-4 mb-12" >
+                            <book-listing :book="book"></book-listing>    
+                          </div>
+                        </ul>
+                      </template>
+                    </ApolloQuery>
                   </div>
-                </div>
-              </template>
-            </ApolloQuery>
-
-            <ApolloQuery :query="query" :variables="{ id: selectedCategory }" v-else>
-              <template slot-scope="{ result: { data }, isLoading }">
-                <div v-if="isLoading">Loading...</div>
-                <div v-else class="flex flex-wrap">
-                  <div v-for="book of data.category.books" :key="book.id" class="w-full lg:w-1/3 px-4 mb-12">
-                    <book-listing :book="book"></book-listing>
-                  </div>
-                </div>
-              </template>
-            </ApolloQuery>
-
-
-          </div>
+                  <!-- END  -->
+         </div>
         </div>
 
       </div>
     </div> <!-- end container -->
+
+
+
+
+
   </div>
 </template>
 
@@ -93,7 +115,7 @@ import booksFeaturedQuery from '@/graphql/queries/BooksFeatured.gql'
 import bookListing from '@/components/BookListing.vue'
 
 export default {
-  name: 'home',
+   name: 'home',
   components: {
     bookListing
   },
