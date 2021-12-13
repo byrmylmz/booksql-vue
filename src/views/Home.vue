@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home bg-gray-50">
     <!-- HERO SECTION STARTED -->
-    <div class="hero bg-gray-100 mb-16 ">
+    <div class="hero bg-gray-100 border-b-2 border-gray-400 border-dashed  ">
       <div class="container mx-auto flex flex-col lg:flex-row lg:justify-between py-10 px-40">
         <div class="mt-10">
           <h1 class="w-full text-2xl font-semibold lg:w-3/4 mb-4">Book recommendation site built with GraphQL</h1>
@@ -19,9 +19,9 @@
     
     <!-- CONTAINER FOR 2 COLUMN
      -->
-    <div class="container mx-auto px-40">
-    <div class="flex flex-wrap -mx-4">
-    <div class="w-full lg:w-1/4 px-4 mb-12 bg-blue-50 border border-dashed  border-gray-500">
+    <div class="container mx-auto ">
+    <div class="flex flex-wrap -mx-4 ">
+    <div class="w-full lg:w-1/4 px-4 mb-12 border-dashed border-r-2 border-gray-400">
     <!-- CATEGORIES APOLLO COMPONENT LEFT SIDE -->
         <ApolloQuery :query="categoriesQuery">
       <template slot-scope="{ result: { data }, isLoading }">
@@ -52,7 +52,7 @@
     </ApolloQuery> 
     <!-- END CATEGORY COMPONENT -->
      </div>
-        <div class="w-full lg:w-3/4 px-4 mb-12 border border-dashed border-gray-500 bg-blue-50">
+        <div class="w-full lg:w-3/4 px-4 mb-12 mt-5 ">
           <div>
             <!-- BOOKS LIST COMPONENT RIGHT SIDE -->
                 <!-- SECOND COMPONENT ALL BOOKS-->
