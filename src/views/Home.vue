@@ -16,17 +16,22 @@
         </div>
       </div>
     </div> <!-- end hero -->
+    
     <!-- CONTAINER FOR 2 COLUMN
      -->
-    <div class="container bg-gray-100  mx-auto px-40">
-    <div class="flex flex-wrap -mx-4 bg-red-100">
-    <div class="w-full lg:w-1/4 px-4 mb-12 bg-blue-100">
+    <div class="container mx-auto px-40">
+    <div class="flex flex-wrap -mx-4">
+    <div class="w-full lg:w-1/4 px-4 mb-12 bg-blue-50 border border-dashed  border-gray-500">
     <!-- CATEGORIES APOLLO COMPONENT LEFT SIDE -->
         <ApolloQuery :query="categoriesQuery">
       <template slot-scope="{ result: { data }, isLoading }">
         <!-- Some content -->
         <div v-if="isLoading">Loading...</div>
-        <ul v-else class="list-reset text-lg"> 
+        <ul v-else class="list-reset text-lg mt-5"> 
+           <!-- ADD A BOOK -->
+          <li class="mb-5">
+             <router-link to="/books/add"><button class="flex items-center bg-gray-300 px-2 border rounded-md hover:bg-gray-200">New book</button> </router-link>
+          </li>
           <!-- LIST FOR ALL BOOKS -->
           <li class="mb-5">
             <a href="#" class="link-margin" @click.prevent="selectCategory('all')" >All</a>
@@ -41,16 +46,13 @@
                 <a href="#" class="link-margin" @click.prevent="selectCategory(category.id)">{{ category.name }}</a>
           </li>
             </a>
-            <!-- ADD A BOOK -->
-          <li>
-             <router-link to="/books/add">Add a book</router-link>
-          </li>
+           
         </ul>
       </template>
     </ApolloQuery> 
     <!-- END CATEGORY COMPONENT -->
      </div>
-        <div class="w-full lg:w-3/4 px-4 mb-12 bg-indigo-400">
+        <div class="w-full lg:w-3/4 px-4 mb-12 border border-dashed border-gray-500 bg-blue-50">
           <div>
             <!-- BOOKS LIST COMPONENT RIGHT SIDE -->
                 <!-- SECOND COMPONENT ALL BOOKS-->
